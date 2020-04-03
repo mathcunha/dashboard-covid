@@ -1,15 +1,27 @@
 import Layout from "./components/layout";
+import LastUpdate from "./components/lastUpdate";
 import TotalCard from "./components/totalCard";
-import Plot from "./components/plot";
+import fetch from "isomorphic-unfetch";
+import csv from "csvtojson";
+import PlotNext from "./components/plotNext";
+import { useState } from "react";
 
-const Index = () => {
+const Index = ({ dataset }) => {
+  const [estado, setEstado] = useState("todos");
+
   return (
     <Layout>
       <div className="row">
         <p>
           <span>Selecione o Estado:</span>
         </p>
-        <select name="estados-brasil" defaultValue="todos">
+        <select
+          name="estados-brasil"
+          defaultValue={estado}
+          onChange={e =>
+            setEstado(e.target.options[e.target.selectedIndex].value)
+          }
+        >
           <option value="todos">Todos</option>
           <option value="AC">Acre</option>
           <option value="AL">Alagoas</option>
@@ -39,14 +51,25 @@ const Index = () => {
           <option value="SE">Sergipe</option>
           <option value="TO">Tocantins</option>
         </select>
+        <LastUpdate dataset={dataset} estado={estado} />
       </div>
       <div className="inc-exp-container">
-        <TotalCard total={121} description="infectados" />
-        <TotalCard total={-121} description="infectados" />
+        <TotalCard dataset={dataset} estado={estado} description="confirmed" />
+        <TotalCard dataset={dataset} estado={estado} description="deaths" />
       </div>
       <div className="row">
-        <Plot total={121} description="infectados" type="line" />
-        <Plot total={121} description="infectados" type="bar" />
+        <PlotNext
+          dataset={dataset}
+          estado={estado}
+          description="confirmed"
+          type="line"
+        />
+        <PlotNext
+          dataset={dataset}
+          estado={estado}
+          description="deaths"
+          type="line"
+        />
       </div>
       <style jsx>{`
         select {
@@ -66,6 +89,21 @@ const Index = () => {
       `}</style>
     </Layout>
   );
+};
+
+Index.getInitialProps = async ctx => {
+  const body = await fetch(
+    "https://brasil.io/dataset/covid19/caso?format=csv"
+  ).then(res => res.text());
+
+  const converter = csv({
+    noheader: false,
+    trim: true
+  });
+
+  const dataset = await converter.fromString(body);
+
+  return { dataset: dataset };
 };
 
 export default Index;

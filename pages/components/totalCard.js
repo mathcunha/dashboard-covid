@@ -5,9 +5,30 @@ import {
   faStethoscope
 } from "@fortawesome/free-solid-svg-icons";
 
-const TotalCard = ({ total, description }) => {
+const TotalCard = ({ dataset, estado, description }) => {
+  if (estado !== "todos")
+    dataset = dataset.filter(item => item.state === estado);
+
+  const total = dataset
+    .filter(item => item.is_last === "True")
+    .filter(item => item.place_type === "city")
+    .reduce((acc, item) => (acc += Number(item[description])), 0);
+
+  const lastUpdate = dataset.reduce(
+    (acc, item) => (acc > item.date ? acc : item.date),
+    "2019-04-02"
+  );
+  const totalYestarday = dataset
+    .filter(item => item.is_last === "True")
+    .filter(item => item.place_type === "city")
+    .filter(item => item.date != lastUpdate)
+    .reduce((acc, item) => (acc += Number(item[description])), 0);
+
   const style = total > 0 ? "money plus" : "money minus";
   const angle = total > 0 ? faAngleDoubleUp : faAngleDoubleDown;
+
+  let rate = 1 - total / totalYestarday;
+  if (isNaN(rate) || rate == Number.NEGATIVE_INFINITY) rate = 0;
   return (
     <div>
       <h4>{description}</h4>
@@ -15,7 +36,7 @@ const TotalCard = ({ total, description }) => {
         <FontAwesomeIcon icon={faStethoscope} /> {total}
       </p>
       <p className={style}>
-        <FontAwesomeIcon icon={angle} /> {total}
+        <FontAwesomeIcon icon={angle} /> {rate}
       </p>
 
       <style jsx>{`
