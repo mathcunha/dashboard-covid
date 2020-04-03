@@ -61,7 +61,7 @@ const Layout = props => (
     <footer>
       Hello Next.js <FontAwesomeIcon icon={faThumbsUp} /> Colabore{" "}
       <a
-        href="https://github.com/mathcunha"
+        href="https://github.com/mathcunha/dashboard-covid"
         rel="noopener noreferrer"
         target="_blank"
       >
