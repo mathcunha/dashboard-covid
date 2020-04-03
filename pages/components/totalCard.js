@@ -21,17 +21,17 @@ const TotalCard = ({ total, description }) => {
       <style jsx>{`
         h4 {
           margin: 0;
-          font-size: 25px;
+          font-size: 20px;
           text-transform: uppercase;
         }
         .money {
-          font-size: 20px;
+          font-size: 15px;
           letter-spacing: 1px;
           margin: 5px 0;
         }
 
         .money.number {
-          font-size: 25px;
+          font-size: 20px;
           color: #9e9e9e;
         }
 

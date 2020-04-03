@@ -10,7 +10,7 @@ const Index = () => {
         <TotalCard total={121} description="infectados" />
         <TotalCard total={-121} description="infectados" />
       </div>
-      <div className="inc-exp-container">
+      <div className="row">
         <Plot total={121} description="infectados" type="line" />
         <Plot total={121} description="infectados" type="bar" />
       </div>

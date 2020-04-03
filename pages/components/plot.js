@@ -26,17 +26,13 @@ class Plot extends Component {
 
   render() {
     return (
-      <div className="app">
-        <div className="row">
-          <div className="mixed-chart">
-            <Chart
-              options={this.state.options}
-              series={this.state.series}
-              type={this.props.type}
-              width="500"
-            />
-          </div>
-        </div>
+      <div>
+        <Chart
+          options={this.state.options}
+          series={this.state.series}
+          type={this.props.type}
+          width="350"
+        />
       </div>
     );
   }
