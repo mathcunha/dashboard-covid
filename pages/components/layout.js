@@ -59,21 +59,26 @@ const Layout = props => (
     <div className="container">{props.children}</div>
 
     <footer>
-      Hello Next.js <FontAwesomeIcon icon={faThumbsUp} /> Colabore{" "}
-      <a
-        href="https://github.com/mathcunha/dashboard-covid"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <FontAwesomeIcon icon={faGithub} />
-      </a>
-      <a
-        href="https://twitter.com/intent/tweet?text=Saca%20o%20painel%20do%20%23coronavirus%20%23covid-19%20publicado%20por%20%40mathcunha"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <FontAwesomeIcon icon={faTwitter} />
-      </a>
+      <span>
+        Colabore{" "}
+        <a
+          href="https://github.com/mathcunha/dashboard-covid"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <FontAwesomeIcon icon={faGithub} />
+        </a>
+      </span>
+      <span>
+        Compartilhe
+        <a
+          href="https://twitter.com/intent/tweet?text=Saca%20o%20painel%20https%3A//dashboard-covid.now.sh/%20do%20%23coronavirus%20%23covid-19%20publicado%20por%20%40mathcunha"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <FontAwesomeIcon icon={faTwitter} />
+        </a>
+      </span>
     </footer>
   </React.Fragment>
 );

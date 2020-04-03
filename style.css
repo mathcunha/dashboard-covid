@@ -191,9 +191,13 @@ button:focus {
 
 footer {
   background: var(--primary-color);
+  text-align: right;
   color: #fff;
   padding: 15px;
-  text-align: center;
+}
+
+footer span {
+  margin-right: 10px;
 }
 
 .modal-header {
