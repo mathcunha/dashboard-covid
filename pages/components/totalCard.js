@@ -14,32 +14,33 @@ const TotalCard = ({ dataset, estado, description }) => {
 
   const total = dataset
     .filter(item => item.is_last === "True")
-    .filter(item => item.place_type === "city")
+    .filter(item => item.place_type === "state")
     .reduce((acc, item) => (acc += Number(item[description])), 0);
 
   const lastUpdate = dataset.reduce(
     (acc, item) => (acc > item.date ? acc : item.date),
     "2019-04-02"
   );
-  const totalYestarday = dataset
-    .filter(item => item.is_last === "True")
-    .filter(item => item.place_type === "city")
-    .filter(item => item.date != lastUpdate)
+
+  const yesterday = dataset.reduce(
+    (acc, item) => (acc > item.date && acc != lastUpdate ? acc : item.date),
+    "2019-04-02"
+  );
+  const totalYesterday = dataset
+    .filter(item => item.place_type === "state")
+    .filter(item => item.date == yesterday)
     .reduce((acc, item) => (acc += Number(item[description])), 0);
 
   const style = total > 0 ? "money plus" : "money minus";
   const angle = total > 0 ? faAngleDoubleUp : faAngleDoubleDown;
 
-  let rate = (1 - total / totalYestarday).toFixed(2);
+  let rate = (1 - total / totalYesterday).toFixed(2);
   if (isNaN(rate) || rate == Number.NEGATIVE_INFINITY) rate = 0;
   return (
     <div>
       <h4>{description}</h4>
       <p className="money number">
         <FontAwesomeIcon icon={faStethoscope} /> {total}
-      </p>
-      <p className={style}>
-        <FontAwesomeIcon icon={angle} /> {rate}
       </p>
 
       <style jsx>{`
