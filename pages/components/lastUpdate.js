@@ -6,11 +6,11 @@ const LastUpdate = ({ dataset, estado }) => {
     dataset = dataset.filter(item => item.state === estado);
 
   const lastUpdate = dataset.reduce(
-    (acc, item) => (acc > new Date(item.date) ? acc : new Date(item.date)),
-    new Date("2019-04-02")
+    (acc, item) => (acc > item.date ? acc : item.date),
+    "2019-04-02"
   );
 
-  return <p>Brasil.io em {lastUpdate.toLocaleDateString()}</p>;
+  return <p>Brasil.io atualizou em {lastUpdate}</p>;
 };
 
 export default LastUpdate;

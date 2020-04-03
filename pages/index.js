@@ -63,12 +63,14 @@ const Index = ({ dataset }) => {
           estado={estado}
           description="confirmed"
           type="line"
+          title="Infectados pelo COVID-19"
         />
         <PlotNext
           dataset={dataset}
           estado={estado}
           description="deaths"
           type="line"
+          title="Mortes pelo COVID-19"
         />
       </div>
       <style jsx>{`

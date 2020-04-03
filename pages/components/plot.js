@@ -15,6 +15,7 @@ class Plot extends Component {
           series={this.props.series}
           type={this.props.type}
           width="350"
+          height="380"
         />
       </div>
     );

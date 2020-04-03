@@ -1,6 +1,6 @@
 import Plot from "./plot";
 
-const PlotNext = ({ dataset, estado, description, type }) => {
+const PlotNext = ({ dataset, estado, description, type, title }) => {
   if (!dataset) {
     dataset = [];
   }
@@ -33,6 +33,9 @@ const PlotNext = ({ dataset, estado, description, type }) => {
     },
     xaxis: {
       categories: xData.reverse() //TODO -
+    },
+    title: {
+      text: title
     }
   };
   const series = [

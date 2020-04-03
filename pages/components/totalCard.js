@@ -30,7 +30,7 @@ const TotalCard = ({ dataset, estado, description }) => {
   const style = total > 0 ? "money plus" : "money minus";
   const angle = total > 0 ? faAngleDoubleUp : faAngleDoubleDown;
 
-  let rate = 1 - total / totalYestarday;
+  let rate = (1 - total / totalYestarday).toFixed(2);
   if (isNaN(rate) || rate == Number.NEGATIVE_INFINITY) rate = 0;
   return (
     <div>
