@@ -3,8 +3,8 @@ import LastUpdate from "./components/lastUpdate";
 import TotalCard from "./components/totalCard";
 import fetch from "isomorphic-unfetch";
 import csv from "csvtojson";
+import PlotNext from "./components/plotNext";
 import { useState } from "react";
-import Plot from "./components/plot";
 
 const Index = ({ dataset }) => {
   const [estado, setEstado] = useState("todos");
@@ -58,8 +58,18 @@ const Index = ({ dataset }) => {
         <TotalCard dataset={dataset} estado={estado} description="deaths" />
       </div>
       <div className="row">
-        <Plot total={121} description="infectados" type="line" />
-        <Plot total={121} description="infectados" type="bar" />
+        <PlotNext
+          dataset={dataset}
+          estado={estado}
+          description="confirmed"
+          type="line"
+        />
+        <PlotNext
+          dataset={dataset}
+          estado={estado}
+          description="deaths"
+          type="line"
+        />
       </div>
       <style jsx>{`
         select {
