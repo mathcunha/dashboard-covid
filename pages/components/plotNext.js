@@ -1,6 +1,10 @@
 import Plot from "./plot";
 
 const PlotNext = ({ dataset, estado, description, type }) => {
+  if (!dataset) {
+    dataset = [];
+  }
+
   if (estado !== "todos")
     dataset = dataset.filter(item => item.state === estado);
 

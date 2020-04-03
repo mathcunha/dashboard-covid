@@ -1,4 +1,7 @@
 const LastUpdate = ({ dataset, estado }) => {
+  if (!dataset) {
+    dataset = [];
+  }
   if (estado !== "todos")
     dataset = dataset.filter(item => item.state === estado);
 

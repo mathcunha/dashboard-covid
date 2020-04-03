@@ -6,6 +6,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const TotalCard = ({ dataset, estado, description }) => {
+  if (!dataset) {
+    dataset = [];
+  }
   if (estado !== "todos")
     dataset = dataset.filter(item => item.state === estado);
 
