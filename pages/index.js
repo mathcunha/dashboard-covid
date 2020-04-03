@@ -1,6 +1,6 @@
 import Layout from "./components/layout";
 import TotalCard from "./components/totalCard";
-import Chart from "./components/chart";
+import Plot from "./components/plot";
 
 const Index = () => {
   return (
@@ -10,13 +10,9 @@ const Index = () => {
         <TotalCard total={121} description="infectados" />
         <TotalCard total={-121} description="infectados" />
       </div>
-      <div className="row">
-        <div className="col-6">
-          <Chart total={121} description="infectados" />
-        </div>
-        <div className="col-6">
-          <Chart total={121} description="infectados" />
-        </div>
+      <div className="inc-exp-container">
+        <Plot total={121} description="infectados" type="line" />
+        <Plot total={121} description="infectados" type="bar" />
       </div>
     </Layout>
   );
