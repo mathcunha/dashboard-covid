@@ -1,50 +1,134 @@
 import Plot from "./plot";
 
-const PlotNext = ({ dataset, estado, description, type, title }) => {
+const PlotNext = ({ dataset, estado, title }) => {
   if (!dataset) {
     dataset = [];
   }
 
   if (estado !== "todos")
-    dataset = dataset.filter(item => item.state === estado);
+    dataset = dataset.filter((item) => item.state === estado);
 
-  dataset = dataset.filter(item => item.place_type === "state");
+  dataset = dataset.filter((item) => item.place_type === "state");
 
   let plotData = {};
 
-  dataset.forEach(element => {
+  dataset.forEach((element) => {
+    let confirmed = 0;
+    if (element.confirmed) confirmed = Number(element.confirmed);
+
+    let deaths = 0;
+    if (element.deaths) deaths = Number(element.deaths);
+
     if (plotData[element.date]) {
-      plotData[element.date] += Number(element[description]);
+      plotData[element.date] = {
+        confirmed: confirmed + plotData[element.date].confirmed,
+        deaths: deaths + plotData[element.date].deaths,
+      };
     } else {
-      plotData[element.date] = Number(element[description]);
+      plotData[element.date] = {
+        confirmed: confirmed,
+        deaths: deaths,
+      };
     }
   });
 
   const xData = [];
-  const yData = [];
+  const seriesA = [];
+  const seriesB = [];
   Object.keys(plotData).map((keyName, i) => {
     xData.push(keyName);
-    yData.push(plotData[keyName]);
+    seriesA.push(plotData[keyName].confirmed);
+    seriesB.push(plotData[keyName].deaths);
   });
 
   const options = {
     chart: {
-      id: "basic-bar"
+      type: "line",
+      stacked: false,
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    colors: ["#d50000", "#212121"],
+    stroke: {
+      width: [4, 4],
+    },
+    plotOptions: {
+      bar: {
+        columnWidth: "20%",
+      },
     },
     xaxis: {
-      categories: xData.reverse() //TODO -
+      categories: xData.reverse(),
+    },
+    yaxis: [
+      {
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: "#d50000",
+        },
+        labels: {
+          style: {
+            colors: "#d50000",
+          },
+        },
+        title: {
+          text: "Confirmados",
+          style: {
+            color: "#d50000",
+          },
+        },
+      },
+      {
+        opposite: true,
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: "#212121",
+        },
+        labels: {
+          style: {
+            colors: "#212121",
+          },
+        },
+        title: {
+          text: "Mortes",
+          style: {
+            color: "#212121",
+          },
+        },
+      },
+    ],
+    tooltip: {
+      x: {
+        show: false,
+      },
+    },
+    legend: {
+      horizontalAlign: "left",
+      offsetX: 40,
     },
     title: {
-      text: title
-    }
+      text: title,
+    },
   };
+
   const series = [
     {
-      name: description,
-      data: yData.reverse()
-    }
+      name: "Confirmados",
+      data: seriesA.reverse(),
+    },
+    {
+      name: "Mortes",
+      data: seriesB.reverse(),
+    },
   ];
 
-  return <Plot options={options} series={series} type={type} />;
+  return <Plot options={options} series={series} />;
 };
 export default PlotNext;

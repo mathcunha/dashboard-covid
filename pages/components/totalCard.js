@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDoubleUp,
   faAngleDoubleDown,
-  faStethoscope
+  faStethoscope,
 } from "@fortawesome/free-solid-svg-icons";
 
 const TotalCard = ({ dataset, estado, description }) => {
@@ -10,11 +10,11 @@ const TotalCard = ({ dataset, estado, description }) => {
     dataset = [];
   }
   if (estado !== "todos")
-    dataset = dataset.filter(item => item.state === estado);
+    dataset = dataset.filter((item) => item.state === estado);
 
   const total = dataset
-    .filter(item => item.is_last === "True")
-    .filter(item => item.place_type === "state")
+    .filter((item) => item.is_last === "True")
+    .filter((item) => item.place_type === "state")
     .reduce((acc, item) => (acc += Number(item[description])), 0);
 
   const lastUpdate = dataset.reduce(
@@ -27,20 +27,27 @@ const TotalCard = ({ dataset, estado, description }) => {
     "2019-04-02"
   );
   const totalYesterday = dataset
-    .filter(item => item.place_type === "state")
-    .filter(item => item.date == yesterday)
+    .filter((item) => item.place_type === "state")
+    .filter((item) => item.date == yesterday)
     .reduce((acc, item) => (acc += Number(item[description])), 0);
 
-  const style = total > 0 ? "money plus" : "money minus";
-  const angle = total > 0 ? faAngleDoubleUp : faAngleDoubleDown;
+  console.log(yesterday);
+  console.log(totalYesterday);
 
-  let rate = (1 - total / totalYesterday).toFixed(2);
+  let rate = 100 * (1 - total / totalYesterday).toFixed(2);
+
+  const style = totalYesterday < total ? "money plus" : "money minus";
+  const angle = totalYesterday < total ? faAngleDoubleUp : faAngleDoubleDown;
+
   if (isNaN(rate) || rate == Number.NEGATIVE_INFINITY) rate = 0;
   return (
     <div>
       <h4>{description}</h4>
       <p className="money number">
         <FontAwesomeIcon icon={faStethoscope} /> {total}
+      </p>
+      <p className={style}>
+        <FontAwesomeIcon icon={angle} /> {rate + " %"}
       </p>
 
       <style jsx>{`
