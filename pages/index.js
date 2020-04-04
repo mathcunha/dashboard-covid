@@ -18,7 +18,7 @@ const Index = ({ dataset }) => {
         <select
           name="estados-brasil"
           defaultValue={estado}
-          onChange={e =>
+          onChange={(e) =>
             setEstado(e.target.options[e.target.selectedIndex].value)
           }
         >
@@ -61,16 +61,7 @@ const Index = ({ dataset }) => {
         <PlotNext
           dataset={dataset}
           estado={estado}
-          description="confirmed"
-          type="line"
-          title="Infectados pelo COVID-19"
-        />
-        <PlotNext
-          dataset={dataset}
-          estado={estado}
-          description="deaths"
-          type="line"
-          title="Mortes pelo COVID-19"
+          title="Evolução do COVID-19"
         />
       </div>
       <style jsx>{`
@@ -93,14 +84,14 @@ const Index = ({ dataset }) => {
   );
 };
 
-Index.getInitialProps = async ctx => {
+Index.getInitialProps = async (ctx) => {
   const body = await fetch(
     "https://brasil.io/dataset/covid19/caso?format=csv"
-  ).then(res => res.text());
+  ).then((res) => res.text());
 
   const converter = csv({
     noheader: false,
-    trim: true
+    trim: true,
   });
 
   const dataset = await converter.fromString(body);

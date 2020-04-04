@@ -163,7 +163,7 @@ button:focus {
 .inc-exp-container > div {
   flex: 1;
   text-align: center;
-  padding: 20px;
+  padding: 15px;
 }
 
 .inc-exp-container > div:not(:last-of-type) {
