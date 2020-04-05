@@ -80,7 +80,7 @@ const TotalCard = ({ dataset, estado, property, description }) => {
       <style jsx>{`
         h4 {
           margin: 0;
-          font-size: 20px;
+          font-size: 18px;
           text-transform: uppercase;
         }
         .money {
@@ -90,7 +90,7 @@ const TotalCard = ({ dataset, estado, property, description }) => {
         }
 
         .money.number {
-          font-size: 20px;
+          font-size: 15px;
           color: #9e9e9e;
         }
       `}</style>
