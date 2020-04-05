@@ -5,7 +5,35 @@ import {
   faStethoscope,
 } from "@fortawesome/free-solid-svg-icons";
 
-const TotalCard = ({ dataset, estado, description }) => {
+function formatNumber(value, count) {
+  if (parseInt(value) == value) {
+    return value;
+  } else {
+    return (value / count).toPrecision(3) + "%";
+  }
+}
+
+function printRate(style, angle, rate, property) {
+  if (property === "death_rate") {
+    return <React.Fragment />;
+  }
+  return (
+    <p className={style}>
+      <FontAwesomeIcon icon={angle} /> {rate + " %"}
+      <style jsx>{`
+        .money.plus {
+          color: #c0392b;
+        }
+
+        .money.minus {
+          color: #2ecc71;
+        }
+      `}</style>
+    </p>
+  );
+}
+
+const TotalCard = ({ dataset, estado, property, description }) => {
   if (!dataset) {
     dataset = [];
   }
@@ -15,7 +43,12 @@ const TotalCard = ({ dataset, estado, description }) => {
   const total = dataset
     .filter((item) => item.is_last === "True")
     .filter((item) => item.place_type === "state")
-    .reduce((acc, item) => (acc += Number(item[description])), 0);
+    .reduce((acc, item) => (acc += Number(item[property])), 0);
+
+  const count = dataset
+    .filter((item) => item.is_last === "True")
+    .filter((item) => item.place_type === "state")
+    .reduce((acc, item) => (acc += 1), 0);
 
   const lastUpdate = dataset.reduce(
     (acc, item) => (acc > item.date ? acc : item.date),
@@ -29,7 +62,7 @@ const TotalCard = ({ dataset, estado, description }) => {
   const totalYesterday = dataset
     .filter((item) => item.place_type === "state")
     .filter((item) => item.date == yesterday)
-    .reduce((acc, item) => (acc += Number(item[description])), 0);
+    .reduce((acc, item) => (acc += Number(item[property])), 0);
 
   let rate = 100 * (1 - total / totalYesterday).toFixed(2);
 
@@ -41,12 +74,9 @@ const TotalCard = ({ dataset, estado, description }) => {
     <div>
       <h4>{description}</h4>
       <p className="money number">
-        <FontAwesomeIcon icon={faStethoscope} /> {total}
+        <FontAwesomeIcon icon={faStethoscope} /> {formatNumber(total, count)}
       </p>
-      <p className={style}>
-        <FontAwesomeIcon icon={angle} /> {rate + " %"}
-      </p>
-
+      {printRate(style, angle, rate, property)}
       <style jsx>{`
         h4 {
           margin: 0;
@@ -62,14 +92,6 @@ const TotalCard = ({ dataset, estado, description }) => {
         .money.number {
           font-size: 20px;
           color: #9e9e9e;
-        }
-
-        .money.plus {
-          color: #c0392b;
-        }
-
-        .money.minus {
-          color: #2ecc71;
         }
       `}</style>
     </div>

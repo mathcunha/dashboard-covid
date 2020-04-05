@@ -29,8 +29,6 @@ const Index = () => {
 
   if (!data) {
     quote = "Loading...";
-  } else {
-    console.log(data?.dataset);
   }
   if (error) quote = "Failed to fetch the quote.";
 
@@ -79,8 +77,24 @@ const Index = () => {
         <LastUpdate dataset={dataset} estado={estado} />
       </div>
       <div className="inc-exp-container">
-        <TotalCard dataset={dataset} estado={estado} description="confirmed" />
-        <TotalCard dataset={dataset} estado={estado} description="deaths" />
+        <TotalCard
+          dataset={dataset}
+          estado={estado}
+          description="confirmados"
+          property="confirmed"
+        />
+        <TotalCard
+          dataset={dataset}
+          estado={estado}
+          description="mortes"
+          property="deaths"
+        />
+        <TotalCard
+          dataset={dataset}
+          estado={estado}
+          description="risco de morte"
+          property="death_rate"
+        />
       </div>
       <div className="row">
         <PlotNext
