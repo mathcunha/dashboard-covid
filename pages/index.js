@@ -1,38 +1,13 @@
 import Layout from "./components/layout";
 import LastUpdate from "./components/lastUpdate";
 import TotalCard from "./components/totalCard";
+import fetch from "isomorphic-unfetch";
 import csv from "csvtojson";
-import useSWR from "swr";
 import PlotNext from "./components/plotNext";
 import { useState } from "react";
 
-function fetcher(url) {
-  console.log("loading data");
-  const converter = csv({
-    noheader: false,
-    trim: true,
-  });
-  return fetch(url)
-    .then((r) => r.text())
-    .then((body) => converter.fromString(body))
-    .then((data) => ({ dataset: data, tamanho: data.length }));
-}
-
-const Index = () => {
+const Index = ({ dataset }) => {
   const [estado, setEstado] = useState("todos");
-  const { data, error } = useSWR(`/api/brasilio/todos`, fetcher);
-  //const { data, error } = useSWR(`/api/brasilio/${estado}`, fetcher);
-  // The following line has optional chaining, added in Next.js v9.1.5,
-  // is the same as `data && data.author`
-  const dataset = data?.dataset;
-  let quote = data?.quote;
-
-  if (!data) {
-    quote = "Loading...";
-  } else {
-    console.log(data?.dataset);
-  }
-  if (error) quote = "Failed to fetch the quote.";
 
   return (
     <Layout>
@@ -107,6 +82,21 @@ const Index = () => {
       `}</style>
     </Layout>
   );
+};
+
+Index.getInitialProps = async (ctx) => {
+  const body = await fetch(
+    "https://brasil.io/dataset/covid19/caso?format=csv"
+  ).then((res) => res.text());
+
+  const converter = csv({
+    noheader: false,
+    trim: true,
+  });
+
+  const dataset = await converter.fromString(body);
+
+  return { dataset: dataset };
 };
 
 export default Index;
