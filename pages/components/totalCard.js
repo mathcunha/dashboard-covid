@@ -31,9 +31,6 @@ const TotalCard = ({ dataset, estado, description }) => {
     .filter((item) => item.date == yesterday)
     .reduce((acc, item) => (acc += Number(item[description])), 0);
 
-  console.log(yesterday);
-  console.log(totalYesterday);
-
   let rate = 100 * (1 - total / totalYesterday).toFixed(2);
 
   const style = totalYesterday < total ? "money plus" : "money minus";
