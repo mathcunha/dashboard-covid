@@ -23,11 +23,13 @@ const PlotNext = ({ dataset, estado, title }) => {
       plotData[element.date] = {
         confirmed: confirmed + plotData[element.date].confirmed,
         deaths: deaths + plotData[element.date].deaths,
+        states: plotData[element.date].states + 1,
       };
     } else {
       plotData[element.date] = {
         confirmed: confirmed,
         deaths: deaths,
+        states: 1,
       };
     }
   });
@@ -36,9 +38,11 @@ const PlotNext = ({ dataset, estado, title }) => {
   const seriesA = [];
   const seriesB = [];
   Object.keys(plotData).map((keyName, i) => {
-    xData.push(keyName);
-    seriesA.push(plotData[keyName].confirmed);
-    seriesB.push(plotData[keyName].deaths);
+    if (estado !== "todos" || plotData[keyName].states >= 25) {
+      xData.push(keyName);
+      seriesA.push(plotData[keyName].confirmed);
+      seriesB.push(plotData[keyName].deaths);
+    }
   });
 
   const options = {
