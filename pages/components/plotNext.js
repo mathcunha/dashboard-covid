@@ -1,6 +1,9 @@
 import Plot from "./plot";
 
 const PlotNext = ({ prepared, estado, title }) => {
+  if (!prepared) {
+    prepared = [];
+  }
   const xData = [];
   const seriesA = [];
   const seriesB = [];

@@ -13,7 +13,7 @@ class Plot extends Component {
         options={this.props.options}
         series={this.props.series}
         type={this.props.type}
-        width="400"
+        width="500"
         height="380"
       />
     );
