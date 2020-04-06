@@ -1,47 +1,17 @@
 import Plot from "./plot";
 
-const PlotNext = ({ dataset, estado, title }) => {
-  if (!dataset) {
-    dataset = [];
+const PlotNext = ({ prepared, estado, title }) => {
+  if (!prepared) {
+    prepared = [];
   }
-
-  if (estado !== "todos")
-    dataset = dataset.filter((item) => item.state === estado);
-
-  dataset = dataset.filter((item) => item.place_type === "state");
-
-  let plotData = {};
-
-  dataset.forEach((element) => {
-    let confirmed = 0;
-    if (element.confirmed) confirmed = Number(element.confirmed);
-
-    let deaths = 0;
-    if (element.deaths) deaths = Number(element.deaths);
-
-    if (plotData[element.date]) {
-      plotData[element.date] = {
-        confirmed: confirmed + plotData[element.date].confirmed,
-        deaths: deaths + plotData[element.date].deaths,
-        states: plotData[element.date].states + 1,
-      };
-    } else {
-      plotData[element.date] = {
-        confirmed: confirmed,
-        deaths: deaths,
-        states: 1,
-      };
-    }
-  });
-
   const xData = [];
   const seriesA = [];
   const seriesB = [];
-  Object.keys(plotData).map((keyName, i) => {
-    if (estado !== "todos" || plotData[keyName].states >= 25) {
+  Object.keys(prepared).map((keyName, i) => {
+    if (estado !== "todos" || prepared[keyName].states >= 25) {
       xData.push(keyName);
-      seriesA.push(plotData[keyName].confirmed);
-      seriesB.push(plotData[keyName].deaths);
+      seriesA.push(prepared[keyName].confirmed);
+      seriesB.push(prepared[keyName].deaths);
     }
   });
 
