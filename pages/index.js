@@ -5,6 +5,44 @@ import csv from "csvtojson";
 import useSWR from "swr";
 import PlotNext from "./components/plotNext";
 import { useState } from "react";
+import PredictPlot from "./components/predictPlot";
+
+function prepareData(dataset, estado) {
+  if (!dataset) {
+    dataset = [];
+  }
+
+  if (estado !== "todos")
+    dataset = dataset.filter((item) => item.state === estado);
+
+  dataset = dataset.filter((item) => item.place_type === "state");
+
+  let preparedData = {};
+
+  dataset.forEach((element) => {
+    let confirmed = 0;
+    if (element.confirmed) confirmed = Number(element.confirmed);
+
+    let deaths = 0;
+    if (element.deaths) deaths = Number(element.deaths);
+
+    if (preparedData[element.date]) {
+      preparedData[element.date] = {
+        confirmed: confirmed + preparedData[element.date].confirmed,
+        deaths: deaths + preparedData[element.date].deaths,
+        states: preparedData[element.date].states + 1,
+      };
+    } else {
+      preparedData[element.date] = {
+        confirmed: confirmed,
+        deaths: deaths,
+        states: 1,
+      };
+    }
+  });
+
+  return preparedData;
+}
 
 function fetcher(url) {
   console.log("loading data");
@@ -97,8 +135,8 @@ const Index = () => {
         />
       </div>
       <div className="row">
-        <PlotNext
-          dataset={dataset}
+        <PredictPlot
+          prepared={prepareData(dataset, estado)}
           estado={estado}
           title="Evolução do COVID-19"
         />
