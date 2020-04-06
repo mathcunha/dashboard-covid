@@ -64,7 +64,8 @@ const TotalCard = ({ dataset, estado, property, description }) => {
     .filter((item) => item.date == yesterday)
     .reduce((acc, item) => (acc += Number(item[property])), 0);
 
-  let rate = 100 * (1 - total / totalYesterday).toFixed(2);
+  //console.log(`total ${total} totalYesterday ${totalYesterday}`);
+  let rate = (100 * (total / totalYesterday - 1)).toFixed(2);
 
   const style = totalYesterday < total ? "money plus" : "money minus";
   const angle = totalYesterday < total ? faAngleDoubleUp : faAngleDoubleDown;
