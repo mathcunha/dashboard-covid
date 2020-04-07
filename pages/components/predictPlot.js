@@ -18,7 +18,7 @@ function addPredictions(
   length
 ) {
   let nextDate = new Date(lastUpdate);
-  for (let index = 0; index < 4; index++) {
+  for (let index = 0; index < 7; index++) {
     nextDate.setDate(nextDate.getDate() + 1);
     const date = nextDate.toISOString().split("T")[0];
     xData.push(new Date(date).getTime());
