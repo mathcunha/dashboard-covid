@@ -237,6 +237,22 @@ footer span {
   right: 0;
 }
 
+.plot {
+  width: 800px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 830px) {
+  .plot {
+    width: 600px;
+  }
+}
+@media (max-width: 630px) {
+  .plot {
+    width: 400px;
+  }
+}
+
 @keyframes modalopen {
   from {
     opacity: 0;

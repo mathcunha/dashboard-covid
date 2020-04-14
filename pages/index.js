@@ -100,7 +100,7 @@ const Index = () => {
           property="death_rate"
         />
       </div>
-      <div className="row">
+      <div className="plot">
         <PredictPlot
           prepared={prepareData(dataset, estado)}
           estado={estado}
